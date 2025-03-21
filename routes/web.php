@@ -26,13 +26,48 @@ Route::get('/info-student', [StudentController::class, 'index']);
 
 Route::get('/posts', function () {
     $query = DB::table('posts')
-    ->select('id', 'name', 'view')
-    ->orderBy('view', 'desc')
-    ->limit(10);
+        ->select('id', 'name', 'view')
+        ->orderBy('view', 'desc')
+        ->limit(10);
     $data = $query->get();
-    foreach($data as $post) {
+    echo "<h1>Tin xem nhiều</h1>";
+    foreach ($data as $post) {
         echo "<p>{$post->name}</p>";
     }
+});
+
+Route::get('/posts-new', function () {
+    $query = DB::table('posts')
+        ->select('id', 'name', 'created_at')
+        ->orderBy('created_at', 'desc')
+        ->limit(10);
+    $data = $query->get();
+    return view('client.blog.posts-new', ['data' => $data]);
+});
+
+Route::get('/posts-in-category/{id}', function ($id) {
+    $category = DB::table('post_categories')
+    ->where('id', '=', $id)
+    ->first();
+
+    $data = DB::table('posts')
+        ->select('id', 'name', 'content')
+        ->where('category_id', '=', $id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('client.blog.posts-in-category', [
+        'data' => $data,
+        'category' => $category
+    ]);
+});
+
+
+Route::get('posts/{id}', function ($id) {
+    $post = DB::table('posts')
+        ->where('id', '=', $id)
+        ->first();
+    return view('client.blog.post-detail', ['post' => $post]);
 });
 
 //Tìm hiểu cái pluck
@@ -40,11 +75,11 @@ Route::get('/posts', function () {
 //Đếm số lượng sinh viên của mỗi khoa
 Route::get('/departments', function () {
     $query = DB::table('departments')
-    ->leftJoin('students', 'departments.id', '=', 'students.department_id')
-    ->select('departments.id', 'departments.name', DB::raw('COUNT(students.id) as so_luong_sinh_vien'))
-    ->groupBy('departments.id', 'departments.name')
-    ->get();
-    foreach($query as $department) {
+        ->leftJoin('students', 'departments.id', '=', 'students.department_id')
+        ->select('departments.id', 'departments.name', DB::raw('COUNT(students.id) as so_luong_sinh_vien'))
+        ->groupBy('departments.id', 'departments.name')
+        ->get();
+    foreach ($query as $department) {
         echo "<p>{$department->name} - {$department->so_luong_sinh_vien}</p>";
     }
 });
@@ -52,11 +87,10 @@ Route::get('/departments', function () {
 //Danh sách sinh viên cho biết sinh viên thuộc khoa nào
 Route::get('/students', function () {
     $query = DB::table('students')
-    ->leftJoin('departments', 'departments.id', '=', 'students.department_id')
-    ->select('students.name', 'departments.name as department_name')
-    ->get();
-    foreach($query as $student) {
+        ->leftJoin('departments', 'departments.id', '=', 'students.department_id')
+        ->select('students.name', 'departments.name as department_name')
+        ->get();
+    foreach ($query as $student) {
         echo "<p>{$student->name} - {$student->department_name}</p>";
     }
 });
-
