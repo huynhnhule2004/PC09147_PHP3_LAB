@@ -5,6 +5,7 @@ use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\BlogController;
+use App\Http\Controllers\client\PostController;
 use App\Http\Controllers\client\StudentController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -69,6 +70,11 @@ Route::get('posts/{id}', function ($id) {
         ->first();
     return view('client.blog.post-detail', ['post' => $post]);
 });
+
+Route::get('/post', [PostController::class, 'index']);
+Route::get('/post/{id}', [PostController::class, 'detail']);
+Route::get('/cat/{id}', [PostController::class, 'postInCategory']);
+
 
 //Tìm hiểu cái pluck
 

@@ -21,7 +21,9 @@ class BlogController extends Controller
     public function lay1tin($id)
     {
         $data = ['id' => $id];
-        
+
         return view('client.blog.chitiet', $data);
     }
+
+    
 }
