@@ -25,7 +25,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->required(),
-                TextInput::make('email')->email()->required(),
+                TextInput::make('email')->email()->unique()->required(),
                 TextInput::make('password')->password()->required(),
             ]);
     }
@@ -38,7 +38,6 @@ class UserResource extends Resource
                 ->searchable(),
                 TextColumn::make('email')
                 ->sortable(),
-
             ])
             ->filters([
                 //
@@ -63,7 +62,7 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUser::route('/'),
+            'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];

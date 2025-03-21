@@ -4,6 +4,8 @@ use App\Http\Controllers\Client\AuthController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductController;
+use App\Http\Controllers\Client\BlogController;
+use App\Http\Controllers\client\StudentController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,13 @@ Route::get('/product/{id}', [ProductController::class, 'detail']);
 
 Route::get('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'register']);
+
+Route::get('/blog', [BlogController::class, 'index']);
+Route::get('/lien-he', [BlogController::class, 'lienhe']);
+Route::get('/ct/{id}', [BlogController::class, 'lay1tin']);
+
+Route::get('/info-student', [StudentController::class, 'index']);
+
 
 Route::get('/posts', function () {
     $query = DB::table('posts')
@@ -51,4 +60,3 @@ Route::get('/students', function () {
     }
 });
 
-//

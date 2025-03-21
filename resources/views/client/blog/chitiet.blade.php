@@ -1,0 +1,1 @@
+<p>Đây là trang hiển thị chi tiết của tin có id là <strong>{{ $id }}</strong></p>
