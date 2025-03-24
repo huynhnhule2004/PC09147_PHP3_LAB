@@ -1,16 +1,25 @@
 <?php
 
+use App\Http\Controllers\client\AboutController;
+use App\Http\Controllers\client\Auth1Controller;
 use App\Http\Controllers\Client\AuthController;
+use App\Http\Controllers\client\Blog1Controller;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\BlogController;
+use App\Http\Controllers\client\CheckoutController;
+use App\Http\Controllers\client\ContactController;
+use App\Http\Controllers\client\Home1Controller;
+use App\Http\Controllers\client\OrderController;
 use App\Http\Controllers\client\PostController;
+use App\Http\Controllers\client\Product1Controller;
 use App\Http\Controllers\client\StudentController;
+use App\Http\Controllers\client\WishlistController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index']);
 Route::get('/product', [ProductController::class, 'index']);
 Route::get('/cart', [CartController::class, 'index']);
 Route::get('/product/{id}', [ProductController::class, 'detail']);
@@ -100,3 +109,40 @@ Route::get('/students', function () {
         echo "<p>{$student->name} - {$student->department_name}</p>";
     }
 });
+
+
+Route::get('/', [Home1Controller::class, 'index']);
+
+// Products
+Route::get('/products', [Product1Controller::class, 'index']);
+Route::get('/products/{id}', [Product1Controller::class, 'single']);
+
+// Blogs
+Route::get('/blogs', [Blog1Controller::class, 'index']);
+Route::get('/blogs/{id}', [Blog1Controller::class, 'single']);
+
+//Contact
+Route::get('/contact', [ContactController::class, 'index']);
+
+// About
+Route::get('/about', [AboutController::class, 'index']);
+
+// Cart
+Route::get('/cart', [CartController::class, 'index']);
+
+// Cart
+Route::get('/wishlist', [WishlistController::class, 'index']);
+
+// Checkout
+Route::get('/checkout', [CheckoutController::class, 'index']);
+
+// Auth
+Route::get('/users/{id}', [Auth1Controller::class, 'index']);
+Route::get('/change-password', [Auth1Controller::class, 'changePassword']);
+Route::get('/reset-password', [Auth1Controller::class, 'resetPassword']);
+
+//Order
+Route::get('/orders/thank-you', [OrderController::class, 'thankYou']);
+Route::get('/orders/history', [OrderController::class, 'index']);
+Route::get('/orders/{id}', [OrderController::class, 'detail']);
+Route::get('/orders/cancel/{id}', [OrderController::class, 'cancel']);
